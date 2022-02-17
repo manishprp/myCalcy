@@ -122,6 +122,10 @@ namespace calculatorFull
             //below code lines are used to take operator input
             if ((v.FindViewById(v.Id) as Button) == percent)
             {
+                if (solution.Text == "" && userInput.Text == "")
+                    return;
+                count = 0;
+                //aiseHiDabaDiya();
                 if (userInput.Text == "")
                     input = double.Parse(solution.Text);
                 else if (userInput.Text != "")
@@ -134,13 +138,10 @@ namespace calculatorFull
                     result = input / 100;
                 solution.Text = result.ToString();
             }
-            if ((v.FindViewById(v.Id) as Button) == div)
-            {
-                expression.Text = div.Text;
-                performDivision();
-            }
+
             if ((v.FindViewById(v.Id) as Button) == clear)
             {
+
                 if (userInput.Text == "")
                     userInput.Text = "";
                 else
@@ -148,50 +149,78 @@ namespace calculatorFull
             }
             if ((v.FindViewById(v.Id) as Button) == add)
             {
+                if (solution.Text == "" && userInput.Text == "")
+                    return;
+                count = 0;
+                //aiseHiDabaDiya();
                 expression.Text = add.Text;
                 performAddition();
             }
             if ((v.FindViewById(v.Id) as Button) == mul)
             {
+                if (solution.Text == "" && userInput.Text == "")
+                    return;
+                count = 0;
+                //aiseHiDabaDiya();
                 expression.Text = mul.Text;
                 performMultiplication();
             }
             if ((v.FindViewById(v.Id) as Button) == sub)
             {
-                
+                if (solution.Text == "" && userInput.Text == "")
+                    return;
+                count = 0;
+                //aiseHiDabaDiya();
                 expression.Text = sub.Text;
                 performSubtraction();
             }
             if ((v.FindViewById(v.Id) as Button) == div)
             {
+                if (solution.Text == "" && userInput.Text == "")
+                    return;
+                count = 0;
+                //aiseHiDabaDiya();
                 expression.Text = div.Text;
                 performDivision();
-               
+
 
                 // input = double.Parse(userInput.Text);
-               
+
             }
             if ((v.FindViewById(v.Id) as Button) == equals)
             {
+                if (solution.Text == "." || userInput.Text == ".")
+                    return;
+                if (solution.Text == "" && userInput.Text == "")
+                    return;
+                if (solution.Text != "" && userInput.Text == "")
+                    return;
+
+                count = 0;
                 if (expression.Text == "+")
                     performAddition();
                 if (expression.Text == "/")
                 {
+                    //aiseHiDabaDiya();
                     multi = double.Parse(userInput.Text);
                     multi = input / multi;
-                   
+
                     solution.Text = multi.ToString();
                     userInput.Text = "";
                     return;
                 }
                 if (expression.Text == "-")
                 {
+
+                    //aiseHiDabaDiya();
                     result = double.Parse(userInput.Text);
                     result = input - result;
                     userInput.Text = "";
+
                 }
                 if (expression.Text == "*")
                 {
+                    //aiseHiDabaDiya();
                     performMultiplication();
                     solution.Text = multi.ToString();
                     return;
@@ -203,6 +232,9 @@ namespace calculatorFull
         }
         public void performDivision()
         {
+            if (solution.Text == "." || userInput.Text == ".")
+                return;
+            //count = 0;
             if (userInput.Text != "")
                 input = double.Parse(userInput.Text);
             else
@@ -211,6 +243,9 @@ namespace calculatorFull
         }
         public void performMultiplication()
         {
+            if (solution.Text == "." || userInput.Text == ".")
+                return;
+            //count = 0;
             if (userInput.Text == "")
             {
                 input = double.Parse(solution.Text);
@@ -223,6 +258,9 @@ namespace calculatorFull
         }
         public void performSubtraction()
         {
+            if (solution.Text == "." || userInput.Text == ".")
+                return;
+            //count = 0;
             if (userInput.Text == "")
                 input = double.Parse(solution.Text);
             else
@@ -233,6 +271,9 @@ namespace calculatorFull
         }
         public void performAddition()
         {
+            if (solution.Text == "." || userInput.Text == ".")
+                return;
+            //count = 0;
             if (userInput.Text == "")
             {
                 input = double.Parse(solution.Text);
@@ -245,11 +286,12 @@ namespace calculatorFull
         }
         public void userInputMethod(Button tempButton)
         {
+
             userInput.Text = userInput.Text + tempButton.Text;
         }
         public void _clearAllOfIt()
         {
-            // counter2 = 1;
+            count = 0;
             counter = 0;
             multi = 1;
             result = 0;
@@ -258,6 +300,12 @@ namespace calculatorFull
             expression.Text = "";
             userInput.Text = "";
         }
+        //public void aiseHiDabaDiya()
+        //{
+        //    if (solution.Text == "" && expression.Text == "" && userInput.Text == ""||solution.Text==""&&userInput.Text=="")
+        //        return;
+
+        //}
     }
 }
 
