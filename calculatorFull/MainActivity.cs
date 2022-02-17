@@ -11,37 +11,18 @@ namespace calculatorFull
     public class MainActivity : AppCompatActivity, View.IOnClickListener
     {
         public int count = 0;
-        public Button number1;
-        public Button number2;
-        public Button number3;
-        public Button number4;
-        public Button number5;
-        public Button number6;
-        public Button number7;
-        public Button number8;
-        public Button number9;
-        public Button number0;
-        public Button number00;
-        public Button add;
-        public Button sub;
-        public Button mul;
-        public Button div;
-        public Button percent;
-        public Button decima;
-        public Button equals;
-        public Button allClear;
-        public Button clear;
-        public TextView expression;
-        public TextView solution;
+        public Button number1, number2, number3, number4, number5, number6, number7, number8, number9, number0, number00, add, sub, mul, div, percent, decima, equals, allClear, clear;
+        public TextView expression, solution;
         public EditText userInput;
-        public double input = 0, result = -0980;
+        public double input = 0, result = 0, multi = 1, counter2 = 1;
+        public int counter = 0;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
-            _uiReference();            
+            _uiReference();
         }
         public void _uiReference()
         {
@@ -97,121 +78,198 @@ namespace calculatorFull
         {
             //Taking In values from user in the Text view
             if ((v.FindViewById(v.Id) as Button) == number1)
-            {
                 userInputMethod(number1);
-            }
+
             if ((v.FindViewById(v.Id) as Button) == number2)
-            {
                 userInputMethod(number2);
-            }
+
             if ((v.FindViewById(v.Id) as Button) == number3)
-            {
                 userInputMethod(number3);
-            }
+
             if ((v.FindViewById(v.Id) as Button) == number4)
-            {
                 userInputMethod(number4);
-            }
+
             if ((v.FindViewById(v.Id) as Button) == number5)
-            {
                 userInputMethod(number5);
-            }
+
             if ((v.FindViewById(v.Id) as Button) == number6)
-            {
                 userInputMethod(number6);
-            }
+
             if ((v.FindViewById(v.Id) as Button) == number7)
-            {
                 userInputMethod(number7);
-            }
+
             if ((v.FindViewById(v.Id) as Button) == number8)
-            {
                 userInputMethod(number8);
 
-            }
             if ((v.FindViewById(v.Id) as Button) == number0)
-            {
                 userInputMethod(number0);
-            }
+
             if ((v.FindViewById(v.Id) as Button) == number9)
-            {
                 userInputMethod(number9);
-            }
+
             if ((v.FindViewById(v.Id) as Button) == number00)
-            {
                 userInputMethod(number00);
-            }
+
             if ((v.FindViewById(v.Id) as Button) == decima)
             {  //to have only one decimal point at a time we use count
-                if(count==0)
+                if (count == 0)
                 {
                     userInputMethod(decima);
-                        count++;
+                    count++;
                 }
                 return;
             }
             //below code lines are used to take operator input
+            if ((v.FindViewById(v.Id) as Button) == percent)
+            {
+                if (userInput.Text == "")
+                    input = double.Parse(solution.Text);
+                else if (userInput.Text != "")
+                    input = double.Parse(userInput.Text);
+                else
+                    return;
+                if (expression.Text == "/")
+                    result = result * 100;
+                else
+                    result = input / 100;
+                solution.Text = result.ToString();
+            }
+            if ((v.FindViewById(v.Id) as Button) == div)
+            {
+                expression.Text = div.Text;
+                performDivision();
+            }
+            if ((v.FindViewById(v.Id) as Button) == clear)
+            {
+                if (userInput.Text == "")
+                    userInput.Text = "";
+                else
+                    userInput.Text = userInput.Text.Substring(0, userInput.Text.Length - 1);
+            }
             if ((v.FindViewById(v.Id) as Button) == add)
             {
                 expression.Text = add.Text;
                 performAddition();
+            }
+            if ((v.FindViewById(v.Id) as Button) == mul)
+            {
+                expression.Text = mul.Text;
+                performMultiplication();
             }
             if ((v.FindViewById(v.Id) as Button) == sub)
             {
                 expression.Text = sub.Text;
                 performSubtraction();
             }
+            if ((v.FindViewById(v.Id) as Button) == div)
+            {
+                expression.Text = div.Text;
+                performDivision();
+            }
             if ((v.FindViewById(v.Id) as Button) == equals)
             {
-                if(expression.Text=="+")
-                performAddition();
+                if (expression.Text == "+")
+                    performAddition();
+                if (expression.Text == "/")
+                {
+                    multi = double.Parse(userInput.Text);
+                    multi = input / multi;
+                    userInput.Text = "";
+                    solution.Text = multi.ToString();
+                }
                 if (expression.Text == "-")
-                performSubtraction();
+                {
+                    result = double.Parse(userInput.Text);
+                    result = input - result;
+                    userInput.Text = "";
+                }
+                if (expression.Text == "*")
+                {
+                    performMultiplication();
+                    solution.Text = multi.ToString();
+                    return;
+                }
                 solution.Text = result.ToString();
             }
             if ((v.FindViewById(v.Id) as Button) == allClear)
+                _clearAllOfIt();
+        }
+        public void performDivision()
+        {
+            if(userInput.Text=="")
             {
-                result = 0;
-                input = 0;
-                solution.Text = "";
-                expression.Text = "";
-                userInput.Text = "";
+                input = double.Parse(solution.Text);
+
+            }
+            else
+            {
+                input = double.Parse(userInput.Text);
             }
 
+        }
+        public void performMultiplication()
+        {
+            if (userInput.Text == "")
+            {
+                input = double.Parse(solution.Text);
+                multi = 1;
+            }
+            else
+                input = double.Parse(userInput.Text);
+            multi = input * multi;
+            userInput.Text = "";
         }
         public void performSubtraction()
         {
-            double temp;
-            if (userInput.Text == "")
-                input = double.Parse(solution.Text);               
+            if(userInput.Text=="")
+            input = double.Parse(solution.Text);
             else
-                input = double.Parse(userInput.Text);
-            temp = input - result;
-    
-               
-            
+            input = double.Parse(userInput.Text);
+            userInput.Text = "";
 
-           
         }
         public void performAddition()
-        {           
-           if(userInput.Text=="")
+        {
+            if (userInput.Text == "")
             {
-                input = double.Parse(solution.Text); 
+                input = double.Parse(solution.Text);
                 result = 0;
             }
-            else  
-            input = double.Parse(userInput.Text);           
-            result = input + result;
-            userInput.Text = "";           
-        }
-
-        public  void userInputMethod(Button tempButton)
-        {
-            if (userInput.Text == null)
-                userInput.Text = tempButton.Text;
             else
+                input = double.Parse(userInput.Text);
+            result = input + result;
+            userInput.Text = "";
+        }
+        public void userInputMethod(Button tempButton)
+        {
             userInput.Text = userInput.Text + tempButton.Text;
+        }
+        public void _clearAllOfIt()
+        {
+            counter2 = 1;
+            counter = 0;
+            multi = 1;
+            result = 0;
+            input = 0;
+            solution.Text = "";
+            expression.Text = "";
+            userInput.Text = "";
         }
     }
 }
+
+//if (userInput.Text == "")
+//    input = double.Parse(solution.Text);
+//else
+//    input = double.Parse(userInput.Text);
+//if (counter == 0)
+//{
+//    result = input - result;
+//    counter++;
+//}
+//else
+//{
+//    result = result - input;
+//}
+//userInput.Text = "";
+

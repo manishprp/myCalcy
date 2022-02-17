@@ -199,8 +199,8 @@
             android:layout_marginLeft="15dp"
             android:id="@+id/clearButton"
             android:textStyle="bold"
-            android:textSize="35sp"
-            android:text="C"
+            android:textSize="12sp"
+            android:text="back"
             android:layout_width="85dp"
             android:layout_marginRight="5dp"
             android:layout_height="match_parent"/>
