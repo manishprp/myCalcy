@@ -165,12 +165,11 @@ namespace calculatorFull
             if ((v.FindViewById(v.Id) as Button) == div)
             {
                 expression.Text = div.Text;
-                //if (userInput.Text != "")
-                //    input = double.Parse(userInput.Text);
-                //else
-                //    input = double.Parse(solution.Text);
-                input = double.Parse(userInput.Text);
-                userInput.Text = "";
+                performDivision();
+               
+
+                // input = double.Parse(userInput.Text);
+               
             }
             if ((v.FindViewById(v.Id) as Button) == equals)
             {
@@ -204,8 +203,11 @@ namespace calculatorFull
         }
         public void performDivision()
         {
-           
-
+            if (userInput.Text != "")
+                input = double.Parse(userInput.Text);
+            else
+                input = double.Parse(solution.Text);
+            userInput.Text = "";
         }
         public void performMultiplication()
         {
@@ -225,6 +227,7 @@ namespace calculatorFull
                 input = double.Parse(solution.Text);
             else
                 input = double.Parse(userInput.Text);
+
             userInput.Text = "";
 
         }
