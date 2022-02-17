@@ -14,7 +14,7 @@ namespace calculatorFull
         public Button number1, number2, number3, number4, number5, number6, number7, number8, number9, number0, number00, add, sub, mul, div, percent, decima, equals, allClear, clear;
         public TextView expression, solution;
         public EditText userInput;
-        public double input = 0, result = 0, multi = 1, counter2 = 1;
+        public double input = 0, result = 0, multi = 1;
         public int counter = 0;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -158,13 +158,19 @@ namespace calculatorFull
             }
             if ((v.FindViewById(v.Id) as Button) == sub)
             {
+                
                 expression.Text = sub.Text;
                 performSubtraction();
             }
             if ((v.FindViewById(v.Id) as Button) == div)
             {
                 expression.Text = div.Text;
-                performDivision();
+                //if (userInput.Text != "")
+                //    input = double.Parse(userInput.Text);
+                //else
+                //    input = double.Parse(solution.Text);
+                input = double.Parse(userInput.Text);
+                userInput.Text = "";
             }
             if ((v.FindViewById(v.Id) as Button) == equals)
             {
@@ -174,8 +180,10 @@ namespace calculatorFull
                 {
                     multi = double.Parse(userInput.Text);
                     multi = input / multi;
-                    userInput.Text = "";
+                   
                     solution.Text = multi.ToString();
+                    userInput.Text = "";
+                    return;
                 }
                 if (expression.Text == "-")
                 {
@@ -196,15 +204,7 @@ namespace calculatorFull
         }
         public void performDivision()
         {
-            if(userInput.Text=="")
-            {
-                input = double.Parse(solution.Text);
-
-            }
-            else
-            {
-                input = double.Parse(userInput.Text);
-            }
+           
 
         }
         public void performMultiplication()
@@ -221,10 +221,10 @@ namespace calculatorFull
         }
         public void performSubtraction()
         {
-            if(userInput.Text=="")
-            input = double.Parse(solution.Text);
+            if (userInput.Text == "")
+                input = double.Parse(solution.Text);
             else
-            input = double.Parse(userInput.Text);
+                input = double.Parse(userInput.Text);
             userInput.Text = "";
 
         }
@@ -246,7 +246,7 @@ namespace calculatorFull
         }
         public void _clearAllOfIt()
         {
-            counter2 = 1;
+            // counter2 = 1;
             counter = 0;
             multi = 1;
             result = 0;
@@ -258,18 +258,4 @@ namespace calculatorFull
     }
 }
 
-//if (userInput.Text == "")
-//    input = double.Parse(solution.Text);
-//else
-//    input = double.Parse(userInput.Text);
-//if (counter == 0)
-//{
-//    result = input - result;
-//    counter++;
-//}
-//else
-//{
-//    result = result - input;
-//}
-//userInput.Text = "";
 
